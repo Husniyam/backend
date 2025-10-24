@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
@@ -17,6 +21,9 @@ export class UserService {
   }
 
   async create(data: { jshshir: string; password: string; role?: string }) {
+    const currentUser = await this.userModel.findOne({ jshshir: data.jshshir });
+    if (currentUser)
+      throw new UnauthorizedException('Bu Jshshir bilan foydalanuvchi mavjud!');
     const hashed = await bcrypt.hash(data.password, 10);
     const user = new this.userModel({ ...data, password: hashed });
     return user.save();
