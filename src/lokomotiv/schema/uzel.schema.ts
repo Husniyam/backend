@@ -17,6 +17,9 @@ export class Uzel {
   @Prop({ default: 'Ish holatida' })
   holati: string; // Ish holatida | Ta'mirda | Kutishda
 
+  @Prop()
+  sana: Date;
+
   @Prop({ type: Types.ObjectId, ref: Sex.name })
   sex: Types.ObjectId;
 

@@ -16,7 +16,7 @@ export class Lokomotiv {
   zavodRaqami: string;
 
   @Prop()
-  ishlabChiqarilganYil: number;
+  ishlabChiqarilganYil: string;
 }
 
 export const LokomotivSchema = SchemaFactory.createForClass(Lokomotiv);

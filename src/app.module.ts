@@ -10,6 +10,7 @@ import { LokomotivModule } from './lokomotiv/lokomotiv.module';
 import { SexModule } from './sex/sex.module';
 import { UserModule } from './user/user.module';
 import { XodimModule } from './xodim/xodim.module';
+import { UzeltypeModule } from './uzeltype/uzeltype.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { XodimModule } from './xodim/xodim.module';
     SexModule,
     XodimModule,
     JurnalModule,
+    UzeltypeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
