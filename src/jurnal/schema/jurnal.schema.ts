@@ -16,7 +16,7 @@ export class Jurnal {
   yechilganuzel: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: Uzel.name })
-  quyilganuzel: Types.ObjectId;
+  qoyilganuzel: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: Xodim.name })
   yechganXodim: Types.ObjectId;
@@ -28,8 +28,8 @@ export class Jurnal {
   tamirTuri: string; // Masalan: Joriy, Katta, O‘rta
 
   @Prop({
-    enum: ['Yechildi', 'O‘rnatildi', 'Tugallangan'],
-    default: 'Yechildi',
+    enum: ['Tamirda', 'Jarayonda', 'Ish holatida'],
+    default: 'Tamirda',
   })
   status: string;
 

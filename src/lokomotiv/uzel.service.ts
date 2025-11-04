@@ -20,6 +20,7 @@ export class UzelService {
   async findAll() {
     return this.uzelModel
       .find()
+      .populate('uzeltype', 'nomi korikmuddat')
       .populate('sex', 'nomi')
       .populate('lokomotiv', 'nomi zavodRaqami');
   }
@@ -28,6 +29,60 @@ export class UzelService {
   async findAllBy() {
     const uzellar = await this.uzelModel
       .find()
+      .populate('uzeltype', 'nomi korikmuddat')
+      .populate('sex', 'nomi')
+      .populate('lokomotiv', 'nomi zavodRaqami')
+      .sort({ createdAt: -1 })
+      .lean(); // .lean() => natijani plain JS objectga aylantiradi
+
+    // 🔹 Har bir uzel uchun eng so‘nggi jurnalni topish
+    const results = await Promise.all(
+      uzellar.map(async (uzel) => {
+        const lastJurnal = await this.jurnalModel
+          .findOne({
+            $or: [
+              { yechilganuzel: uzel._id.toString() },
+              { quyilganuzel: uzel._id.toString() },
+            ],
+          })
+          .sort({ updatedAt: -1 })
+          .populate([
+            { path: 'yechganXodim', select: 'ism familiya tabelRaqam' },
+            { path: 'qoyganXodim', select: 'ism familiya tabelRaqam' },
+          ])
+          .lean();
+
+        let xodim: Types.ObjectId | null = null;
+        let sana: Date | null = null;
+        let tamirTuri: string | null = null;
+        if (lastJurnal) {
+          tamirTuri = lastJurnal.tamirTuri;
+
+          if (uzel.holati === 'Ish holatida') {
+            xodim = lastJurnal.qoyganXodim;
+            sana = lastJurnal.qoyilganSana;
+          } else if (['Ta’mirda', 'Kutishda'].includes(uzel.holati)) {
+            xodim = lastJurnal.yechganXodim;
+            sana = lastJurnal.yechilganSana;
+          }
+        }
+
+        return {
+          ...uzel,
+          xodim: xodim || null,
+          tamirTuri: tamirTuri || null,
+          sana: sana || null,
+        };
+      }),
+    );
+
+    return results;
+  }
+
+  async findAllByNomi(id: string) {
+    const uzellar = await this.uzelModel
+      .find({ uzeltype: id })
+      .populate('uzeltype', 'nomi korikmuddat')
       .populate('sex', 'nomi')
       .populate('lokomotiv', 'nomi zavodRaqami')
       .sort({ createdAt: -1 })
@@ -81,12 +136,14 @@ export class UzelService {
     const filter = lokomotivId ? { lokomotivId } : {};
     return this.uzelModel
       .find(filter)
+      .populate('uzeltype', 'nomi korikmuddat')
       .populate('lokomotiv', 'nomi zavodRaqami');
   }
 
   async findOne(id: string) {
     const uzel = await this.uzelModel
       .findById(id)
+      .populate('uzeltype', 'nomi korikmuddat')
       .populate('sex', 'nomi')
       .populate('lokomotiv', 'nomi raqami');
     if (!uzel) throw new NotFoundException('Uzel topilmadi');

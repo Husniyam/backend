@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 export class uzelDto {
-  nomi: string;
+  uzeltype: Types.ObjectId;
   raqami: string;
   holati: string;
   sana: Date;

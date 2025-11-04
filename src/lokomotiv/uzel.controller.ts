@@ -23,14 +23,13 @@ export class UzelController {
 
   @Get()
   @Roles('ADMIN', 'MASTER')
-  findAll() {
-    return this.service.findAll();
-  }
-
-  @Get('by')
-  @Roles('ADMIN', 'MASTER')
   findAllBy() {
     return this.service.findAllBy();
+  }
+  @Get(':id')
+  @Roles('ADMIN', 'MASTER')
+  findAllByNomi(@Param('id') id: string) {
+    return this.service.findAllByNomi(id);
   }
 
   // ✅ Barcha uzellar (lokomotiv bo‘yicha filtr bilan)
@@ -48,7 +47,7 @@ export class UzelController {
 
   @Post()
   @Roles('MASTER')
-  create(@Body() data: any) {
+  create(@Body() data: uzelDto) {
     return this.service.create(data);
   }
 

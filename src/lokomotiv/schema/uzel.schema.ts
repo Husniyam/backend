@@ -2,14 +2,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Sex } from 'src/sex/schema/sex.schema';
+import { Uzeltype } from 'src/uzeltype/schema/uzeltype.schema';
 import { Lokomotiv } from './lokomotiv.schema';
 
 export type UzelDocument = Uzel & Document;
 
 @Schema({ timestamps: true })
 export class Uzel {
-  @Prop({ required: true })
-  nomi: string;
+  @Prop({ type: Types.ObjectId, ref: Uzeltype.name })
+  uzeltype: Types.ObjectId;
 
   @Prop({ required: true })
   raqami: string;

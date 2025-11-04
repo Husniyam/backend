@@ -31,19 +31,6 @@ export class UzeltypeController {
     return this.service.findAllwith();
   }
 
-  // @Get('by')
-  // @Roles('ADMIN', 'MASTER')
-  // findAllBy() {
-  // 	return this.service.findAllBy();
-  // }
-
-  // ✅ Barcha uzellar (lokomotiv bo‘yicha filtr bilan)
-  // @Get()
-  // @Roles('MASTER', 'ADMIN')
-  // async getAll(@Query('lokomotivId') lokomotivId?: string) {
-  // 	return this.service.findAllbyloko(lokomotivId);
-  // }
-
   @Get(':id')
   @Roles('ADMIN', 'MASTER')
   findOne(@Param('id') id: string) {
@@ -52,7 +39,7 @@ export class UzeltypeController {
 
   @Post()
   @Roles('MASTER')
-  create(@Body() data: any) {
+  create(@Body() data: Uzeltype) {
     return this.service.create(data);
   }
 

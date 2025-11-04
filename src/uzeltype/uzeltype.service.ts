@@ -117,11 +117,11 @@ export class UzeltypeService {
 
   async findOne(id: string) {
     const uzel = await this.uzeltypeModel.findById(id);
-    if (!uzel) throw new NotFoundException('Uzel topilmadi');
+    if (!uzel) throw new NotFoundException('Uzel turi topilmadi');
     return uzel;
   }
 
-  async update(id: string, data: Partial<Uzel>) {
+  async update(id: string, data: Partial<Uzeltype>) {
     const updated = await this.uzeltypeModel.findByIdAndUpdate(id, data, {
       new: true,
     });
