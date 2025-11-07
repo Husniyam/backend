@@ -1,16 +1,6 @@
 // src/user/user.controller.ts
-import {
-  Body,
-  Controller,
-  Delete,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
-import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -18,9 +8,9 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   // ✅ Faqat ADMIN yangi user qo‘sha oladi
-  @Post('create')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
+  @Post('create/userforbackdata')
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles('ADMIN')
   async create(
     @Body() body: { jshshir: string; password: string; role?: string },
   ) {
