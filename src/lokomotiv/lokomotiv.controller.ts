@@ -25,19 +25,19 @@ export class LokomotivController {
   }
 
   @Post()
-  @Roles('MASTER')
+  @Roles('ADMIN')
   async create(@Body() data: any) {
     return this.service.create(data);
   }
 
   @Patch(':id')
-  @Roles('MASTER')
+  @Roles('ADMIN')
   async update(@Param('id') id: string, @Body() data: any) {
     return this.service.update(id, data);
   }
 
   @Delete(':id')
-  @Roles('MASTER')
+  @Roles('ADMIN')
   async delete(@Param('id') id: string) {
     return this.service.delete(id);
   }
